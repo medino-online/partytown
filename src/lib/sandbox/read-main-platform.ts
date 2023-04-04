@@ -163,7 +163,10 @@ const readImplementationMember = (
   cstrName?: string
 ) => {
   try {
-    if (isValidMemberName(memberName) && isNaN((memberName as any)[0]) && memberName !== 'all') {
+    // Special override for speechSynthesis, as that used to block BFCache in chrome.
+    // "Pages that use SpeechSynthesis are not currently eligible for back/forward cache."
+    // This is completely hacked in
+    if (isValidMemberName(memberName) && isNaN((memberName as any)[0]) && memberName !== 'all' && memberName !== 'speechSynthesis') {
       value = implementation[memberName];
       memberType = typeof value;
 
